@@ -1,6 +1,0 @@
-id: myflow
-namespace: practice
-tasks:
-  - id: hello
-    type: io.kestra.plugin.core.log.Log
-    message: The world is beautiful! 🚀
