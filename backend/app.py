@@ -20,7 +20,7 @@ EMISSION_FACTORS = {
     "driving": 180,   # Average car emissions
     "transit": 80,    # Bus emissions
     "walking": 0,     # Walking has no emissions
-    "bicycling": 0    # Bicycling has no emissions
+    "bicycling":  0   # Bicycling has no emissions
 }
 
 def geocode_address(address):
@@ -185,7 +185,7 @@ def display_map_route(origin, destination, waypoints=[]):
     response = requests.get(static_map_url)
 
     if response.status_code == 200:
-        # Display the image
+      
         display(Image(response.content))
     else:
         print("Error fetching map.")
@@ -246,6 +246,4 @@ if __name__ == "__main__":
         print(f"  Duration: {route['duration_min']:.2f} minutes")
         print(f"  Carbon Footprint: {footprints[mode] / 1000:.2f} kg CO₂")
 
-    # Display map with the suggested route
-    # waypoints = ["narayanguda"]  # Example list of waypoints
     display_map_route(origin, destination)
