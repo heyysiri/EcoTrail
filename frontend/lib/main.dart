@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:frontend/login_page.dart';
 import 'package:frontend/sign_up_page.dart';
 import 'package:frontend/home_page.dart';
+import 'package:frontend/settings_page.dart';
 // Main function to run the app
 void main() => runApp(EcoTrailApp());
 
@@ -19,6 +20,7 @@ class EcoTrailApp extends StatelessWidget {
         '/login': (context) => LoginPage(),
         '/signup': (context) => SignupPage(),
         '/home': (context) => HomePage(),
+        '/settings':(context) => SettingsPage(),
       },
     );
   }

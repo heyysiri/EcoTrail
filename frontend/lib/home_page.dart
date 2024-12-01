@@ -8,15 +8,28 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
-  // List of pages for the dashboard
-  final List<Widget> _pages = [
-    Center(child: Text("Home Page", style: TextStyle(fontSize: 24))),
-    Center(child: Text("Game Page", style: TextStyle(fontSize: 24))),
-    Center(child: Text("Sustainability Page", style: TextStyle(fontSize: 24))),
-    Center(child: Text("Settings Page", style: TextStyle(fontSize: 24))),
-  ];
+  // Method to handle navigation based on index
+  void _navigateToPage(BuildContext context, int index) {
+    switch (index) {
+      case 1:
+        Navigator.pushNamed(context, '/game'); // Navigate to GamePage
+        break;
+      case 2:
+        Navigator.pushNamed(context, '/sustainability'); // Navigate to SustainabilityPage
+        break;
+      case 3:
+        Navigator.pushNamed(context, '/settings'); // Navigate to SettingsPage
+        break;
+      default:
+        // Do nothing for index 0, as it is the current page (HomePage)
+        break;
+    }
+  }
 
   void _onItemTapped(int index) {
+    if (_selectedIndex != index) {
+      _navigateToPage(context, index); // Navigate to the respective page
+    }
     setState(() {
       _selectedIndex = index;
     });
@@ -29,7 +42,12 @@ class _HomePageState extends State<HomePage> {
         title: Text("Home Page"),
         backgroundColor: Colors.green.shade800,
       ),
-      body: _pages[_selectedIndex], // Display the selected page
+      body: Center(
+        child: Text(
+          "Welcome to the Dashboard",
+          style: TextStyle(fontSize: 24),
+        ),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
@@ -48,7 +66,6 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(Icons.settings),
             label: '',
           ),
-          
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.green.shade700,

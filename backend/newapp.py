@@ -36,7 +36,6 @@ def signup():
 
 @app.route('/login', methods=['POST'])
 def login():
-    print("Signup route hit")
     data = request.json
     username = data.get('username')
     password = data.get('password')
@@ -50,6 +49,30 @@ def login():
         return jsonify({"message": "Login successful"}), 200
     else:
         return jsonify({"error": "Invalid username or password"}), 401
+
+@app.route('/updatepassword', methods=['POST'])
+def update_password():
+    print("trying to update password")
+    data = request.json
+    old_password = data.get('old_password')
+    new_password = data.get('new_password')
+    print("this is old password " + old_password)
+    print("this is new password " + new_password)
+    if not old_password or not new_password:
+        return jsonify({"error": "Old password and new password are required"}), 400
+    
+    # Verify user credentials (assuming current logged-in user's credentials)
+    user = users_collection.find_one({"password": old_password})
+    print(user)
+    if not user:
+        return jsonify({"error": "Invalid old password"}), 401
+    
+    # Update password
+    users_collection.update_one(
+        {"_id": user['_id']},
+        {"$set": {"password": new_password}}
+    )
+    return jsonify({"message": "Password updated successfully"}), 200
 
 if __name__ == "__main__":
     app.run(host='127.0.0.1', port=5000, debug=True)
