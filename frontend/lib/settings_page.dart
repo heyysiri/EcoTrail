@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'home_page.dart'; // Assuming you have a HomePage defined
 
 class SettingsPage extends StatefulWidget {
+  final String currentUsername;
+   const SettingsPage({Key? key, required this.currentUsername}) : super(key: key);
   @override
   _SettingsPageState createState() => _SettingsPageState();
 }
@@ -46,7 +48,7 @@ class _SettingsPageState extends State<SettingsPage> {
     try {
       // Send password change request
       final response = await http.post(
-        Uri.parse('http://127.0.0.1:5000/updatepassword'), // Replace with your actual backend URL
+        Uri.parse('http://192.168.12.171:5000/updatepassword'), // Replace with your actual backend URL
         headers: {
           'Content-Type': 'application/json',
         },
@@ -181,7 +183,7 @@ class _SettingsPageState extends State<SettingsPage> {
               onTap: () {
                 // Navigate to HomePage
                 Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => HomePage()),
+                  MaterialPageRoute(builder: (context) => HomePage(username: widget.currentUsername)),
                 );
               },
             ),

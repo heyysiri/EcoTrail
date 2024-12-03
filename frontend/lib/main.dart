@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http; // Add this import
-import 'dart:convert';
+import 'dart:async'; // For Timer
+
 import 'package:frontend/login_page.dart';
 import 'package:frontend/sign_up_page.dart';
 import 'package:frontend/home_page.dart';
 import 'package:frontend/settings_page.dart';
+import 'package:frontend/game_page.dart';
+
 // Main function to run the app
-void main() => runApp(EcoTrailApp());
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+void main() async {
+  await dotenv.load(fileName: ".env");
+  runApp(EcoTrailApp());
+}
 
 // The main app widget
 class EcoTrailApp extends StatelessWidget {
@@ -19,15 +26,68 @@ class EcoTrailApp extends StatelessWidget {
         '/': (context) => WelcomePage(),
         '/login': (context) => LoginPage(),
         '/signup': (context) => SignupPage(),
-        '/home': (context) => HomePage(),
-        '/settings':(context) => SettingsPage(),
+        // '/home': (context) => HomePage(),
+        // '/settings':(context) => SettingsPage(),
+        '/game':(context) => GamePage(),
       },
     );
   }
 }
 
 // WelcomePage Widget
-class WelcomePage extends StatelessWidget {
+class WelcomePage extends StatefulWidget {
+  @override
+  _WelcomePageState createState() => _WelcomePageState();
+}
+
+class _WelcomePageState extends State<WelcomePage> {
+  // List of static eco-friendly tips
+  final List<String> ecoTips = [
+    "Reduce, Reuse, Recycle!",
+    "Turn off lights when not in use.",
+    "Use public transport or carpool.",
+    "Avoid single-use plastics.",
+    "Plant more trees to clean the air."
+  ];
+
+  // Function to show the Eco Tip dialog
+  void showEcoTip() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          title: Text(
+            'Eco-Friendly Tip!',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          content: Text(
+            ecoTips[DateTime.now().second % ecoTips.length],  // Rotate tips based on current second
+            style: TextStyle(fontSize: 16),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text("Got it!"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // Show eco tip when the page loads
+    Future.delayed(Duration.zero, () {
+      showEcoTip();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,4 +151,3 @@ class WelcomePage extends StatelessWidget {
     );
   }
 }
-

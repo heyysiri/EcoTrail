@@ -25,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
 
     try {
       final response = await http.post(
-        Uri.parse('http://127.0.0.1:5000/login'),
+        Uri.parse('http://192.168.12.171:5000/login'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'username': username, 'password': password}),
       );
@@ -36,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
         );
        Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => HomePage()),
+        MaterialPageRoute(builder: (context) => HomePage(username: username)),
         );
       } else {
         final responseBody = jsonDecode(response.body);
